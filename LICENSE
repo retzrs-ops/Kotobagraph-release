@@ -1,0 +1,30 @@
+Kotobagraph（コトバグラフ）使用許諾条件 / Terms of Use
+Copyright (c) 2026 Retzn. All rights reserved.
+
+1. 利用
+   個人・非営利の目的であれば、無料で利用できます。インストール不要で、ダウンロードして実行するだけです。
+
+2. 禁止事項
+   - 本ソフトウェアの再配布、再販売、有償での提供
+   - 逆コンパイル、逆アセンブル、リバースエンジニアリング、改変（法令で許される範囲を除く）
+   - 本ソフトウェアに含まれる著作権表示、ライセンス表示の削除
+   ただし、本ソフトウェアに含まれる第三者のソフトウェア（THIRD_PARTY_LICENSES.txt に記載）には、
+   それぞれのライセンスが適用され、本条の制限は、それらのライセンスで認められた権利を制限しません。
+
+3. 無保証・免責
+   本ソフトウェアは「現状のまま」提供され、動作・品質・特定目的への適合性について、一切の保証をしません。
+   本ソフトウェアの使用または使用できなかったことによる損害について、作者は責任を負いません。
+   くわしくは、説明書の「免責事項」をご覧ください。
+
+4. 変更
+   本ソフトウェアおよび本条件は、予告なく変更・終了することがあります。
+
+5. 第三者のソフトウェア
+   本ソフトウェアは、第三者のソフトウェアを含みます。それらは各々のライセンスに従います。
+   一覧は THIRD_PARTY_LICENSES.txt にあります。
+
+---
+Kotobagraph is free-of-charge software for personal, non-commercial use.
+Redistribution, resale, reverse engineering and modification are not permitted, except as allowed
+by the licenses of the bundled third-party components (see THIRD_PARTY_LICENSES.txt).
+The software is provided "AS IS", without warranty of any kind.

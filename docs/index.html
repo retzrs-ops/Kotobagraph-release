@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kotobagraph（コトバグラフ）説明書 v1.4.2</title>
+<title>Kotobagraph（コトバグラフ）説明書 v1.5.1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
@@ -154,7 +154,7 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
     <div>
       <h1 class="wordmark">Kotobagraph<span class="kana">コトバグラフ</span></h1>
       <p class="lead">音声・動画ファイルから、文字起こしを作る Windows 用の無料アプリです。OpenAI の音声認識モデル Whisper を使い、すべてお使いのパソコンの中で処理します。音声データは外部に送信されません。</p>
-      <span class="ver">説明書 v1.4.2（2026年10月）</span>
+      <span class="ver">説明書 v1.5.1（2026年10月）</span>
       <div class="cta">
         <a class="btn" id="dl" href="#">ダウンロード</a>
         <a class="btn ghost" href="#start">はじめての設定へ</a>
@@ -172,6 +172,7 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
         <li><a href="#env">動作環境と保存されるファイル</a></li>
         <li><a href="#start">はじめての設定</a></li>
         <li><a href="#use">文字起こしのしかた</a></li>
+        <li><a href="#realtime">リアルタイム議事録</a></li>
         <li><a href="#ai">AI・議事録に使う</a></li>
         <li><a href="#models">モデルの選び方</a></li>
         <li><a href="#options">詳細オプション</a></li>
@@ -194,10 +195,11 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
         <li><b>GPU で速くなる</b>：NVIDIA（CUDA）に加え、AMD / Intel の GPU（Vulkan）にも対応。GPU が無いパソコンでも、CPU で動きます</li>
         <li><b>自動品質チェック</b>：自信の低い所や、同じ言葉の繰り返しなどの「怪しい所」だけを自動で聞き直し、明らかに良くなったときだけ差し替えます</li>
         <li><b>AI・議事録への連携</b>：フィラー（「えー」「あの」など）を取り除いた文章や、議事録用の指示文を付けた文章を、ワンクリックでコピーできます</li>
+        <li><b>リアルタイム議事録</b><span class="since">v1.5.0〜</span>：マイクの声をその場で文字起こしし、決定事項・アクション・保留事項などを含む議事録を自動で作ります。録音（MP3）も保存します</li>
         <li><b>自動保存</b>：文字起こしが終わると、音声ファイルと同じ場所にテキストファイルを保存します</li>
         <li><b>進み具合の表示</b>：進み具合と、残りの予想時間を表示します。いつでも中止できます</li>
       </ul>
-      <div class="note">音声は、お使いのパソコンの中だけで処理します。インターネットを使うのは、初回のモデルと FFmpeg のダウンロードのときだけです。</div>
+      <div class="note">音声は、お使いのパソコンの中だけで処理します。インターネットを使うのは、初回のモデルや FFmpeg、議事録用 AI のダウンロードのときだけです。</div>
     </section>
 
     <section id="env">
@@ -206,13 +208,16 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
       <ul>
         <li>Windows 10 / 11（64bit）</li>
         <li>GPU（なくても動きます）：NVIDIA、または AMD / Intel。最新のグラフィックドライバをおすすめします</li>
-        <li>インターネット接続：初回のモデルと FFmpeg のダウンロードのときだけ必要です</li>
-        <li>空き容量：使うモデルに応じて、約 1〜4 GB</li>
+        <li>インターネット接続：初回のモデル、FFmpeg、議事録用 AI のダウンロードのときだけ必要です</li>
+        <li>空き容量：使うモデルに応じて、約 1〜4 GB（リアルタイム議事録の AI を使うときは、さらに約 2.5 GB）</li>
+        <li>マイク：リアルタイム議事録を使うときに必要です</li>
       </ul>
       <h3>保存されるファイル・設定</h3>
       <ul>
         <li><code>models</code> フォルダ：<code>Kotobagraph.exe</code> と同じ場所に作られ、ダウンロードしたモデルが入ります（AMD / Intel の GPU 用は <code>models\ggml</code>）</li>
         <li><code>ffmpeg.exe</code> / <code>ffprobe.exe</code>：自動ダウンロードしたとき、<code>Kotobagraph.exe</code> と同じ場所に保存されます</li>
+        <li><code>models\llm</code> フォルダ / <code>llama_cpp</code> フォルダ：リアルタイム議事録の AI のモデルと実行部品が入ります</li>
+        <li><code>議事録</code> フォルダ：リアルタイム議事録の録音・全文・議事録が、会議ごとのフォルダ（<code>yymmdd_hhmm</code>）で保存されます</li>
         <li>初期プロンプトの入力内容：Windows のユーザー設定（レジストリ）に自動で保存されます</li>
         <li>文字起こしのテキスト：音声ファイルと同じ場所に、<code>（音声ファイル名）_モデル名.txt</code> として保存されます</li>
       </ul>
@@ -248,6 +253,45 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
         <li><strong>結果を受け取る</strong>終わると、かかった時間（所要時間）が出て、音声ファイルと同じ場所にテキストファイル（<code>_モデル名.txt</code>）が自動で保存されます。</li>
       </ol>
       <div class="note">AMD / Intel の GPU をはじめて使うときは、GPU 用のモデルを別にダウンロードします（2回目からは不要です）。ダウンロード中も進み具合が出て、中止もできます。</div>
+    </section>
+
+    <section id="realtime">
+      <h2>リアルタイム議事録 <span class="since">v1.5.0〜</span></h2>
+      <p>マイクで拾った声をその場で文字起こしし、会議の議事録を自動で作ります。「リアルタイム議事録」タブを使います。音声も議事録も、お使いのパソコンの中だけで処理します。</p>
+      <ol class="steps">
+        <li><strong>必要なものを用意する</strong>はじめて使うときは、足りないものがあると「録音・議事録の作成を開始」ボタンが灰色になり、赤い案内が出ます。「必要なものをダウンロード」ボタンを押すと、次のものがそろいます（初回のみ）。
+          <ul>
+            <li>文字起こしのモデル</li>
+            <li>議事録を作る AI の実行部品（約 35 MB）</li>
+            <li>議事録を作る AI のモデル（約 2.5 GB）</li>
+          </ul></li>
+        <li><strong>選ぶ</strong>文字起こしのモデル、使うデバイス（GPU / CPU）、マイクを選びます。GPU があるときの初期値は <code>large-v3-turbo</code>、CPU だけのときは軽い <code>small</code> です。マイクを選ぶと「マイクの入力レベル」のバーが動くので、声を出して確かめてください。</li>
+        <li><strong>開始する</strong>緑の「録音・議事録の作成を開始」を押して話します。左に認識した発言、右に議事録が出てきます。状態は色付きの帯に表示されます（「● 録音・議事録作成中」など）。</li>
+        <li><strong>終わる</strong>赤の「終了して保存」を押します。最後の発言と議事録を仕上げて、保存します。「保存先を開く」で、保存したフォルダを開けます。</li>
+      </ol>
+      <h3>議事録に載る項目</h3>
+      <ul>
+        <li><b>基本情報</b>：開催日時（録音の開始と終了から自動）、会議名、開催場所、出席者、欠席者、記録者</li>
+        <li><b>議題</b>、<b>議論の要約</b>（発言した人の名前が分かれば付きます）</li>
+        <li><b>決定事項</b></li>
+        <li><b>アクションプラン</b>：誰が・何を・いつまでに</li>
+        <li><b>保留事項・懸念点</b>、<b>次回開催予定</b></li>
+      </ul>
+      <div class="note">会議名・場所・出席者・担当者・期限などは、<b>会議の中で声に出して言ったものだけ</b>が入ります。聞き取れなかった項目は載せません（推測で埋めません）。入れたい情報は、会議の中で言葉にしてください。</div>
+      <h3>文字起こしと議事録が更新されるタイミング</h3>
+      <ul>
+        <li>発言は、約 10 秒ごとに文字起こしします。2 秒ほど静かになったときも、そこで区切って文字起こしします</li>
+        <li>議事録は、約 10 秒ごとに新しい項目を足し、約 1 分ごとに全体を整え直します（新しい発言を優先して、矛盾を直します）</li>
+        <li>AMD / Intel の GPU では、発言ごとにモデルを読み込むため、NVIDIA の GPU より少し遅れが出ます（10 秒の発言で 2 秒ほどが目安）</li>
+      </ul>
+      <h3>保存されるファイル</h3>
+      <p><code>Kotobagraph.exe</code> と同じ場所の <code>議事録</code> フォルダに、開始するたびに「<code>yymmdd_hhmm</code>」（例：<code>261024_1430</code> ＝ 2026年10月24日14時30分）のフォルダを作って保存します。同じ分にもう一度始めたときは「<code>_2</code>」を付けるので、上書きされません。</p>
+      <ul>
+        <li><code>audio.mp3</code>：録音</li>
+        <li><code>全文.txt</code>：時刻付きの全文（発言ごとに追記するので、途中で止まっても残ります）</li>
+        <li><code>議事録.md</code> / <code>議事録.json</code>：議事録</li>
+      </ul>
+      <div class="note">「議事録を自動で作る（AI）」のチェックを外すと、議事録は作らず、文字起こしと録音だけを行います。録音中は、ファイルの文字起こしは始められません。</div>
     </section>
 
     <section id="ai">
@@ -319,6 +363,20 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
         <div><p>音声に雑音や無音が多いと起きやすい症状です。自動品質チェック（再推論）が直すことがありますが、直らないときは、<code>large-v3</code> を試すか、「無音自動カット」を使ってください。</p></div></details>
       <details class="qa"><summary>専門用語や名前を間違えて書かれる</summary>
         <div><p>「詳細オプション」の「初期プロンプト」に、その言葉を登録してください。聞き取りの精度が上がります。</p></div></details>
+      <details class="qa"><summary>リアルタイム議事録の開始ボタンが灰色で押せない</summary>
+        <div><p>赤い案内に「足りないもの」が出ています。「必要なものをダウンロード」ボタンを押してください。インターネットにつながっている必要があります。</p></div></details>
+      <details class="qa"><summary>マイクの入力レベルのバーが動かない・発言が出てこない</summary>
+        <div><ul>
+          <li>「マイク」の選択が合っているか確かめてください。声を出したとき、バーが右へ伸びれば、そのマイクは使えています</li>
+          <li>バーがほとんど動かないときは、パソコンのサウンド設定でマイクの音量が小さくなっていないか、確かめてください</li>
+          <li>「マイクを開けません」と出るときは、ほかのソフトがそのマイクを使っていないか、確かめてください</li>
+        </ul></div></details>
+      <details class="qa"><summary>リアルタイム議事録の文字起こしが遅れる・精度が低い</summary>
+        <div><ul>
+          <li>GPU があるときは、デバイスで GPU を選んでください。精度は <code>large-v3-turbo</code> が高めです</li>
+          <li>CPU だけで追いつかないときは、<code>small</code> にすると軽くなりますが、精度は下がります</li>
+          <li>会議の名前や専門用語は、「詳細オプション」の初期プロンプトに登録すると、聞き取りの手がかりになります</li>
+        </ul></div></details>
       <details class="qa"><summary>青い警告「WindowsによってPCが保護されました」が出る</summary>
         <div><p>「詳細情報」→「実行」で起動できます。電子署名が付いていないための警告です。</p></div></details>
     </section>
@@ -326,6 +384,8 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
     <section id="history">
       <h2>バージョン履歴</h2>
       <details class="qa" open><summary>新しい順（おもな変更）</summary><div><ul class="history">
+          <li><b>v1.5.1：</b>リアルタイム議事録で、AI の実行部品（llama.cpp）が無いパソコンでも、ボタン一つで自動ダウンロードされるようにしました</li>
+          <li><b>v1.5.0：</b>「リアルタイム議事録」タブを追加（マイク → 文字起こし → 議事録を自動作成。録音・全文・議事録を保存）</li>
           <li><b>v1.4.2：</b>内部の整理のみ（機能・画面の変更はありません）</li>
           <li><b>v1.4.1：</b>無音自動カットを使ったとき、条件によって元の音声ファイルを消してしまうおそれがあった問題を修正</li>
           <li><b>v1.4.0：</b>AMD / Intel の GPU（Vulkan）に対応。自動品質チェックも GPU で実行。「モデル比較」ボタンを追加</li>
@@ -353,6 +413,8 @@ footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;colo
       <ul>
         <li>音声認識：<a href="https://github.com/SYSTRAN/faster-whisper" target="_blank" rel="noopener">faster-whisper</a>（MIT）、<a href="https://github.com/ggml-org/whisper.cpp" target="_blank" rel="noopener">whisper.cpp</a>（MIT。AMD / Intel 用、Vulkan 版）</li>
         <li>モデル（ダウンロードして使います。同梱はしていません）：OpenAI Whisper（MIT）、<a href="https://huggingface.co/kotoba-tech/kotoba-whisper-v2.0" target="_blank" rel="noopener">kotoba-whisper v2.0</a>（Apache-2.0）</li>
+        <li>議事録を作る AI（リアルタイム議事録で、ボタンを押したときだけダウンロードします。同梱はしていません）：<a href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener">llama.cpp</a>（MIT）、<a href="https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507" target="_blank" rel="noopener">Qwen3-4B-Instruct-2507</a>（Apache-2.0）</li>
+        <li>マイクの録音：<a href="https://github.com/spatialaudio/python-sounddevice" target="_blank" rel="noopener">sounddevice</a>（MIT）、<a href="http://www.portaudio.com/" target="_blank" rel="noopener">PortAudio</a>（MIT 系）、<a href="https://github.com/bastibe/python-soundfile" target="_blank" rel="noopener">python-soundfile</a>（BSD-3-Clause）と <a href="https://libsndfile.github.io/libsndfile/" target="_blank" rel="noopener">libsndfile</a>（LGPL v2.1）</li>
         <li>FFmpeg / FFprobe：ボタンを押したときだけダウンロードします。同梱はしていません（<a href="https://ffmpeg.org/legal.html" target="_blank" rel="noopener">FFmpeg のライセンス</a>）</li>
         <li>画面（GUI）：<a href="https://doc.qt.io/qtforpython-6/" target="_blank" rel="noopener">PySide6 / Qt for Python</a>（LGPL v3）。Qt のソースコードは <a href="https://download.qt.io/" target="_blank" rel="noopener">download.qt.io</a> で入手できます</li>
         <li>そのほかの部品（numpy、CTranslate2、onnxruntime、PyAV、requests など）のライセンスは、<a href="https://github.com/retzrs-ops/Kotobagraph-release/blob/main/THIRD_PARTY_LICENSES.txt" target="_blank" rel="noopener">THIRD_PARTY_LICENSES.txt</a> に載せています</li>
